@@ -9,6 +9,9 @@ include:
   - nginx.deprecated
   {%- endif %}
   - nginx.config
+  {%- if grains.os_family == 'RedHat' %}
+  - nginx.selinux
+  {%- endif %}
   - nginx.service
   {%- if nginx.snippets is defined %}
   - nginx.snippets
