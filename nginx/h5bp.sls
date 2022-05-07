@@ -22,12 +22,19 @@ nginx_h5bp_mime_types:
     - target: /usr/share/nginx/h5bp/mime.types
     - force: True
 
-nginx_h5bp_default_cert_key:
+nginx_h5bp_cert_directory:
+  file.directory:
+    - name: /etc/nginx/certs
+    - mode: 0600
+
+nginx_h5bp_cert_default_key:
   x509.private_key_managed:
    - name: /etc/nginx/certs/default.key
    - bits: 4096
+   - require:
+     - file: nginx_h5bp_cert_directory
 
-nginx_h5bp_default_cert_pub:
+nginx_h5bp_cert_default_pub:
   x509.certificate_managed:
     - name: /etc/nginx/certs/default.crt
     - signing_private_key: /etc/nginx/certs/default.key
@@ -35,3 +42,5 @@ nginx_h5bp_default_cert_pub:
     - subjectAltName: 'DNS:www2.example.com'
     - days_valid: 3650
     - days_remaining: 0
+    - require:
+      - file: nginx_h5bp_cert_directory
