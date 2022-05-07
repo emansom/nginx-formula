@@ -8,6 +8,7 @@ include:
   {%- if nginx.ng is defined %}
   - nginx.deprecated
   {%- endif %}
+  - nginx.h5bp
   - nginx.config
   {%- if grains.os_family == 'RedHat' %}
   - nginx.selinux
@@ -19,7 +20,6 @@ include:
   {%- endif %}
   - nginx.servers
   - nginx.certificates
-  - nginx.h5bp
 
 extend:
   nginx_service:
