@@ -11,6 +11,7 @@ include:
   - nginx.config
   {%- if grains.os_family == 'RedHat' %}
   - nginx.selinux
+  - nginx.firewalld
   {%- endif %}
   - nginx.service
   {%- if nginx.snippets is defined %}
