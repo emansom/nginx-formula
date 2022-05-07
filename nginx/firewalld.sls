@@ -1,12 +1,6 @@
-nginx_firewalld_service:
-  firewalld.service:
-    - name: nginx
-    - ports:
-      - 80/tcp
-      - 443/tcp
-
-nginx_firewalld_open:
+nginx_firewalld_open_ports:
   firewalld.present:
     - name: public
     - services:
-      - nginx
+      - http
+      - https
