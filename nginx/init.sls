@@ -19,6 +19,7 @@ include:
   {%- endif %}
   - nginx.servers
   - nginx.certificates
+  - nginx.h5bp
 
 extend:
   nginx_service:
