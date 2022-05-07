@@ -4,6 +4,7 @@
 
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ '/libtofs.jinja' import files_switch with context %}
+{%- from tplroot ~ '/map.jinja' import nginx with context %}
 
 nginx_h5bp_checkout:
   git.detached:
@@ -26,7 +27,7 @@ nginx_h5bp_set_user:
   file.keyvalue:
     - name: /usr/share/nginx/h5bp/nginx.conf
     - key_values:
-        user: {{ nginx.webuser }}
+        user: {{ nginx.lookup.webuser }}
     - separator: ' '
     - uncomment: '# '
     - append_if_not_found: True
