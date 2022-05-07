@@ -27,10 +27,9 @@ nginx_h5bp_set_user:
   file.keyvalue:
     - name: /usr/share/nginx/h5bp/nginx.conf
     - key_values:
-        user: {{ nginx.lookup.webuser }}
+        user: '{{ nginx.lookup.webuser }};'
     - separator: ' '
     - uncomment: '# '
-    - append_if_not_found: True
 
 nginx_h5bp_cert_directory:
   file.directory:
