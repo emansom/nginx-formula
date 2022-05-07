@@ -6,7 +6,14 @@
 {%- from tplroot ~ '/libtofs.jinja' import files_switch with context %}
 {%- from tplroot ~ '/map.jinja' import nginx with context %}
 
-nginx_h5bp_ensure_dir:
+nginx_h5bp_config_dir:
+  file.directory:
+    - name: /etc/nginx
+    - user: root
+    - group: root
+    - mode: 0755
+
+nginx_h5bp_share_dir:
   file.directory:
     - name: /usr/share/nginx/h5bp
     - user: root
@@ -20,7 +27,7 @@ nginx_h5bp_checkout:
     - target: /usr/share/nginx/h5bp
     - rev: 4.2.0
     - require:
-      - file: nginx_h5bp_ensure_dir
+      - file: nginx_h5bp_share_dir
 
 nginx_h5bp_directory:
   file.symlink:
@@ -28,6 +35,7 @@ nginx_h5bp_directory:
     - target: /usr/share/nginx/h5bp/h5bp
     - require:
       - git: nginx_h5bp_checkout
+      - file: nginx_h5bp_config_dir
 
 nginx_h5bp_mime_types:
   file.symlink:
@@ -36,6 +44,7 @@ nginx_h5bp_mime_types:
     - force: True
     - require:
       - git: nginx_h5bp_checkout
+      - file: nginx_h5bp_config_dir
 
 nginx_h5bp_set_user:
   file.keyvalue:
@@ -51,6 +60,8 @@ nginx_h5bp_cert_directory:
   file.directory:
     - name: /etc/nginx/certs
     - mode: 0600
+    - require:
+      - file: nginx_h5bp_config_dir
 
 nginx_h5bp_cert_default_key:
   x509.private_key_managed:
