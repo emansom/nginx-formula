@@ -58,7 +58,7 @@ nginx_h5bp_set_user:
 
 nginx_h5bp_set_resolvers:
   augeas.change:
-    - lens: nginx.lns
+    - lens: nginx.aug
     - context: /files/usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
     - changes:
       - set resolver '{{ grains.dns.nameservers|join(' ') }} valid=60s'
