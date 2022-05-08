@@ -60,7 +60,7 @@ nginx_h5bp_set_resolvers:
   file.line:
     - name: /usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
     - mode: ensure
-    - after: resolver
+    - after: resolver$
     - content: '{{ grains.dns.nameservers|join(' ') }};'
     - before: '  valid=60s;'
     - require:
