@@ -62,8 +62,17 @@ nginx_h5bp_set_resolvers:
     - source: {{ files_switch(['h5bp/ocsp_stapling.conf'], 'nginx_h5bp_ocsp_stapling_file_managed') }}
     - template: jinja
     - context:
+        {%- if grains.dns.nameservers|length > 0 %}
+        {%- if grains.dns.ip4_nameservers|length > 0 %}
         ip4_resolvers: '{{ grains.dns.ip4_nameservers|join(' ') }}'
+        {%- endif %}
+        {%- if grains.dns.ip6_nameservers|length > 0 %}
         ip6_resolvers: '[{{ grains.dns.ip6_nameservers|join('] [') }}]'
+        {%- endif %}
+        {%- else %}
+        cloudflare_dns: '1.1.1.1 1.0.0.1 [2606:4700:4700::1111] [2606:4700:4700::1001]'
+        google_dns: '8.8.8.8 8.8.4.4 [2001:4860:4860::8888] [2001:4860:4860::8844]'
+        {%- endif %}
     - require:
       - git: nginx_h5bp_checkout
 
