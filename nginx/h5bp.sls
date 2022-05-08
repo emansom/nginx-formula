@@ -52,7 +52,17 @@ nginx_h5bp_set_user:
     - key_values:
         user: '{{ nginx.lookup.webuser }};'
     - separator: ' '
-    - uncomment: '# '
+    - uncomment: '#'
+    - require:
+      - git: nginx_h5bp_checkout
+
+nginx_h5bp_set_resolvers:
+  file.line:
+    - name: /usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
+    - mode: ensure
+    - after: resolver
+    - content: '{{ grains.dns.nameservers|join(' ') }};'
+    - before: '  valid=60s;'
     - require:
       - git: nginx_h5bp_checkout
 
