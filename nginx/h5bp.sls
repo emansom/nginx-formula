@@ -62,7 +62,8 @@ nginx_h5bp_set_resolvers:
     - source: {{ files_switch(['h5bp/ocsp_stapling.conf'], 'nginx_h5bp_ocsp_stapling_file_managed') }}
     - template: jinja
     - context:
-        resolvers: '{{ grains.dns.nameservers|join(' ') }}'
+        ip4_resolvers: '{{ grains.dns.ip4_nameservers|join(' ') }}'
+        ip6_resolvers: '[{{ grains.dns.ip6_nameservers|join('] ') }}]'
     - require:
       - git: nginx_h5bp_checkout
 
