@@ -57,12 +57,11 @@ nginx_h5bp_set_user:
       - git: nginx_h5bp_checkout
 
 nginx_h5bp_set_resolvers:
-  file.line:
-    - name: /usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
-    - mode: ensure
-    - after: resolver$
-    - content: '{{ grains.dns.nameservers|join(' ') }};'
-    - before: '  valid=60s;'
+  augeas.change:
+    - lens: nginx.lns
+    - context: /files/usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
+    - changes:
+      - set resolver '{{ grains.dns.nameservers|join(' ') }} valid=60s'
     - require:
       - git: nginx_h5bp_checkout
 
