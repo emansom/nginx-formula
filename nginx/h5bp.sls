@@ -60,7 +60,7 @@ nginx_h5bp_set_resolvers:
   file.blockreplace:
     - name: /usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
     - marker_start: "resolver"
-    - marker_end: "valid=60s;"
+    - marker_end: "  valid=60s;"
     - content: '{{ grains.dns.nameservers|join(' ') }}'
     - require:
       - git: nginx_h5bp_checkout
