@@ -63,7 +63,7 @@ nginx_h5bp_set_resolvers:
     - template: jinja
     - context:
         ip4_resolvers: '{{ grains.dns.ip4_nameservers|join(' ') }}'
-        ip6_resolvers: '[{{ grains.dns.ip6_nameservers|join('] ') }}]'
+        ip6_resolvers: '[{{ grains.dns.ip6_nameservers|join('] [') }}]'
     - require:
       - git: nginx_h5bp_checkout
 
