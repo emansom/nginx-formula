@@ -57,11 +57,12 @@ nginx_h5bp_set_user:
       - git: nginx_h5bp_checkout
 
 nginx_h5bp_set_resolvers:
-  file.blockreplace:
+  file.managed:
     - name: /usr/share/nginx/h5bp/h5bp/tls/ocsp_stapling.conf
-    - marker_start: "resolver"
-    - marker_end: "  valid=60s;"
-    - content: '{{ grains.dns.nameservers|join(' ') }}'
+    - source: {{ files_switch(['h5bp/ocsp_stapling.conf'], 'nginx_h5bp_ocsp_stapling_file_managed') }}
+    - template: jinja
+    - context:
+        resolvers: '{{ grains.dns.nameservers|join(' ') }}'
     - require:
       - git: nginx_h5bp_checkout
 
